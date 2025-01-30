@@ -2,21 +2,25 @@
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain.gd" id="1_hmxjr"]
 [ext_resource type="Texture2D" uid="uid://3u4qn66ce0vd" path="res://heightmap.bmp" id="2_v27u7"]
+[ext_resource type="Texture2D" uid="uid://dmdip4ugd7vsd" path="res://normalmap.bmp" id="3_iv44s"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
 [ext_resource type="Texture2D" uid="uid://dqdmk4nrg3qbn" path="res://savanna_dry_d.jpg" id="4_tybux"]
 [ext_resource type="Texture2D" uid="uid://c0amfcrq5tq0x" path="res://mntn_forest_d.jpg" id="5_vwukb"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vnao3"]
-load_path = "res://.godot/imported/heightmap.bmp-fa736de6566ab93998b5b5581088955d.ctex"
-
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.4023, 3.8147e-06, 5.97498)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81.6505, 0, -89.8811)
 script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_v27u7")
-normalmap = SubResource("CompressedTexture2D_vnao3")
+normalmap = ExtResource("3_iv44s")
 clipmap_mesh = ExtResource("4_p8n6b")
-max_height = 10
+max_height = 20
 flat = ExtResource("4_tybux")
 slope = ExtResource("5_vwukb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.693214, -0.0437342, 0.719404, -0.714604, -0.171588, 0.678157, 0.093783, -0.984198, -0.1502, 0, 37.4213, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.658217, 0, 0.752829, 0, 1, 0, -0.752829, 0, 0.658217, 0, 14.7092, 0)

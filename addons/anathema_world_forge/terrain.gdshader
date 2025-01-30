@@ -1,5 +1,5 @@
 shader_type spatial;
-//render_mode vertex_lighting;
+//render_mode world_vertex_coords;
 
 uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
@@ -38,12 +38,13 @@ void fragment() {
 	if (frustrum_culling() || (clipped_uv.x > 1.0) || (clipped_uv.y > 1.0) || (clipped_uv.x < 0.0) || (clipped_uv.y < 0.0)) {
 		discard;
 	}
-	float slope = dot(texture(normalmap, clipped_uv).xyz, vec3(0.0, 1.0, 0.0));
-	if (slope < 0.3) {
-		ALBEDO = texture(flat_texture, clipped_uv*heightmap_size).rgb;
+	float slope = acos((texture(normalmap, clipped_uv).rgb * 2.0 - 1.0).z);
+	if (slope < 0.5) {
+		ALBEDO = texture(flat_texture, clipped_uv * heightmap_size).rgb;
 	}
-	else if (slope >= 0.3) {
-		ALBEDO = texture(slope_texture, clipped_uv*heightmap_size).rgb;
+	else if (slope >= 0.5) {
+		ALBEDO = texture(slope_texture, clipped_uv * heightmap_size).rgb;
 	}
-	NORMAL_MAP = normalize(texture(normalmap, clipped_uv).rgb);
+	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
+	NORMAL_MAP_DEPTH = float(height);
 }

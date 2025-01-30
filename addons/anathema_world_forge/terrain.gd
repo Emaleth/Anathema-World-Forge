@@ -44,7 +44,7 @@ func _clear_children():
 func _create_terrain_collision_shape():
 	collision_shape = CollisionShape3D.new()
 	self.add_child(collision_shape)
-	collision_shape.owner = self
+	#collision_shape.owner = self
 	var hms = HeightMapShape3D.new()
 	var hm_img = heightmap.get_image()
 	hm_img.decompress()
