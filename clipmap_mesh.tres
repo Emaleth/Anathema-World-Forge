@@ -1,0 +1,6 @@
+[gd_resource type="PlaneMesh" format=3 uid="uid://cheot0rolkc30"]
+
+[resource]
+size = Vector2(128, 128)
+subdivide_width = 126
+subdivide_depth = 126

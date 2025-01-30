@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Anathema World Forge"
-run/main_scene="res://terrain.tscn"
+run/main_scene="res://node_3d.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/anathema_world_forge/plugin.cfg")
