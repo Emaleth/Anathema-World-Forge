@@ -37,5 +37,3 @@ void fragment() {
 	}
 	NORMAL_MAP = normalize(texture(normalmap, clipped_uv).rgb);
 }
-
-
