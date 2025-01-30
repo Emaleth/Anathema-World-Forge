@@ -32,6 +32,7 @@ func move_terrain(pos : Vector3) -> void:
 
 func _generate() -> void:
 	_clear_children()
+	_check_if_normalmap_existis()
 	_create_terrain_collision_shape()
 	_configure_terrain_material()
 	_create_terrain_mesh_instance()
@@ -50,6 +51,8 @@ func _create_terrain_collision_shape():
 	hm_img.convert(Image.FORMAT_RH)
 	hms.update_map_data_from_image(hm_img, 0.0, max_height)
 	collision_shape.shape = hms
+	collision_shape.top_level = true
+	collision_shape.global_position = Vector3.ZERO
 
 func _configure_terrain_material():
 	terrain_material = ShaderMaterial.new()
@@ -68,3 +71,9 @@ func _create_terrain_mesh_instance():
 	mesh_instance.mesh = clipmap_mesh
 	mesh_instance.material_override = terrain_material
 	
+func _check_if_normalmap_existis():
+	if normalmap:
+		return
+	normalmap = heightmap.duplicate()
+	normalmap.get_image().bump_map_to_normal_map(max_height)
+	 

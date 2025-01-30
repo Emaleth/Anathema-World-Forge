@@ -1,20 +1,22 @@
 [gd_scene load_steps=7 format=3 uid="uid://c5fp4vbqgm8oe"]
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain.gd" id="1_hmxjr"]
-[ext_resource type="Texture2D" uid="uid://ds4h4hnh42nmp" path="res://Heightmap.png" id="2_kbod3"]
-[ext_resource type="Texture2D" uid="uid://dah81s67fmr24" path="res://Normalmap.png" id="3_rvtgq"]
+[ext_resource type="Texture2D" uid="uid://3u4qn66ce0vd" path="res://heightmap.bmp" id="2_v27u7"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
-[ext_resource type="Texture2D" uid="uid://dv4finfh274ni" path="res://100_1382_seamless.JPG" id="5_um7rb"]
-[ext_resource type="Texture2D" uid="uid://bhile4tn0xg1f" path="res://100_1374_seamless.JPG" id="6_2p77s"]
+[ext_resource type="Texture2D" uid="uid://dqdmk4nrg3qbn" path="res://savanna_dry_d.jpg" id="4_tybux"]
+[ext_resource type="Texture2D" uid="uid://c0amfcrq5tq0x" path="res://mntn_forest_d.jpg" id="5_vwukb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vnao3"]
+load_path = "res://.godot/imported/heightmap.bmp-fa736de6566ab93998b5b5581088955d.ctex"
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.80983, 4.51714, -4.76837e-07)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.4023, 3.8147e-06, 5.97498)
 script = ExtResource("1_hmxjr")
-heightmap = ExtResource("2_kbod3")
-normalmap = ExtResource("3_rvtgq")
+heightmap = ExtResource("2_v27u7")
+normalmap = SubResource("CompressedTexture2D_vnao3")
 clipmap_mesh = ExtResource("4_p8n6b")
 max_height = 10
-flat = ExtResource("5_um7rb")
-slope = ExtResource("6_2p77s")
+flat = ExtResource("4_tybux")
+slope = ExtResource("5_vwukb")

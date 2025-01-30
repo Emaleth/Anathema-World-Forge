@@ -5,8 +5,8 @@ uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
 uniform int height;
 uniform vec2 heightmap_scale;
-uniform sampler2D flat_texture : filter_nearest;
-uniform sampler2D slope_texture : filter_nearest;
+uniform sampler2D flat_texture;
+uniform sampler2D slope_texture;
 
 varying vec2 heightmap_size;
 varying mat4 mdv_mx;
@@ -38,11 +38,11 @@ void fragment() {
 	if (frustrum_culling() || (clipped_uv.x > 1.0) || (clipped_uv.y > 1.0) || (clipped_uv.x < 0.0) || (clipped_uv.y < 0.0)) {
 		discard;
 	}
-	float slope = acos((texture(normalmap, clipped_uv) * 2.0 - 1.0).z);
-	if (slope < 0.5) {
+	float slope = dot(texture(normalmap, clipped_uv).xyz, vec3(0.0, 1.0, 0.0));
+	if (slope < 0.3) {
 		ALBEDO = texture(flat_texture, clipped_uv*heightmap_size).rgb;
 	}
-	else if (slope >= 0.5) {
+	else if (slope >= 0.3) {
 		ALBEDO = texture(slope_texture, clipped_uv*heightmap_size).rgb;
 	}
 	NORMAL_MAP = normalize(texture(normalmap, clipped_uv).rgb);
