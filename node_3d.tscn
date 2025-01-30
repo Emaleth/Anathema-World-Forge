@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5fp4vbqgm8oe"]
+[gd_scene load_steps=7 format=3 uid="uid://c5fp4vbqgm8oe"]
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain.gd" id="1_hmxjr"]
 [ext_resource type="Texture2D" uid="uid://ds4h4hnh42nmp" path="res://Heightmap.png" id="2_kbod3"]
 [ext_resource type="Texture2D" uid="uid://dah81s67fmr24" path="res://Normalmap.png" id="3_rvtgq"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
+[ext_resource type="Texture2D" uid="uid://3vdj23h2cq6h" path="res://100_1396_seamless.JPG" id="5_lq7cf"]
+[ext_resource type="Texture2D" uid="uid://dadm1e3tmtnv7" path="res://100_1450_seamless.JPG" id="6_nwx5i"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -12,4 +14,6 @@ script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_kbod3")
 normalmap = ExtResource("3_rvtgq")
 clipmap_mesh = ExtResource("4_p8n6b")
-heightmap_max_height = 10
+max_height = 10
+flat = ExtResource("5_lq7cf")
+slope = ExtResource("6_nwx5i")
