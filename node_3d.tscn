@@ -4,23 +4,22 @@
 [ext_resource type="Texture2D" uid="uid://3u4qn66ce0vd" path="res://heightmap.bmp" id="2_v27u7"]
 [ext_resource type="Texture2D" uid="uid://dmdip4ugd7vsd" path="res://normalmap.bmp" id="3_iv44s"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
-[ext_resource type="Texture2D" path="res://grass.dds" id="5_668co"]
-[ext_resource type="Texture2D" path="res://rock.dds" id="6_5oyeh"]
-[ext_resource type="Texture2D" path="res://slope.dds" id="6_ad1xy"]
+[ext_resource type="Texture2D" uid="uid://ceax2l88gvy26" path="res://green.png" id="5_dy6mq"]
+[ext_resource type="Texture2D" uid="uid://bblopitsgkhad" path="res://blue.png" id="6_u88dk"]
+[ext_resource type="Texture2D" uid="uid://b1vmf8gnpe2gp" path="res://red.png" id="7_fqduf"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.3293, 0, 22.8558)
 script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_v27u7")
 normalmap = ExtResource("3_iv44s")
 clipmap_mesh = ExtResource("4_p8n6b")
 max_height = 20
 heightmap_scale = 1
-flat_texture = ExtResource("5_668co")
-slant_texture = ExtResource("6_ad1xy")
-slope_texture = ExtResource("6_5oyeh")
+flat_texture = ExtResource("5_dy6mq")
+slant_texture = ExtResource("6_u88dk")
+slope_texture = ExtResource("7_fqduf")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.537453, -0.831838, 0.13853, 0.287161, -0.0260776, 0.957524, -0.792898, 0.554409, 0.25288, 0, 37.4213, 0)
