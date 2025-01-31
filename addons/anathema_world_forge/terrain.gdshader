@@ -4,7 +4,7 @@ shader_type spatial;
 uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
 uniform int height;
-uniform vec2 heightmap_scale;
+uniform float heightmap_scale;
 uniform sampler2D flat_texture;
 uniform sampler2D slant_texture;
 uniform sampler2D slope_texture;
@@ -39,23 +39,23 @@ void fragment() {
 	if (frustrum_culling() || (clipped_uv.x > 1.0) || (clipped_uv.y > 1.0) || (clipped_uv.x < 0.0) || (clipped_uv.y < 0.0)) {
 		discard;
 	}
-	float slope = dot((texture(normalmap, clipped_uv).rgb), vec3(0.0,1.0,0.0));
+	float slope = acos(dot((texture(normalmap, clipped_uv) * 2.0 - 1.0).rgb, vec3(0.0, 0.0, 1.0)));
 	vec3 final_texture;
 	if(slope < 0.2)
 	{
 		float blend_amount = slope / 0.2f;
-		final_texture = mix(texture(flat_texture, clipped_uv).rgb, texture(slant_texture, clipped_uv).rgb, blend_amount);
+		final_texture = mix(texture(flat_texture, clipped_uv * heightmap_size).rgb, texture(slant_texture, clipped_uv * heightmap_size).rgb, blend_amount);
 	}
 	
 	if((slope < 0.7) && (slope >= 0.2f))
 	{
 		float blend_amount = (slope - 0.2f) * (1.0f / (0.7f - 0.2f));
-		final_texture = mix(texture(slant_texture, clipped_uv).rgb, texture(slope_texture, clipped_uv).rgb, blend_amount);
+		final_texture = mix(texture(slant_texture, clipped_uv * heightmap_size).rgb, texture(slope_texture, clipped_uv * heightmap_size).rgb, blend_amount);
 	}
 
 	if(slope >= 0.7) 
 	{
-		final_texture = texture(slope_texture, clipped_uv).rgb;
+		final_texture = texture(slope_texture, clipped_uv * heightmap_size).rgb;
 	}
 	ALBEDO = final_texture;
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;

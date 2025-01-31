@@ -61,7 +61,7 @@ func _configure_terrain_material():
 	terrain_material.set("shader_parameter/heightmap", heightmap)
 	terrain_material.set("shader_parameter/normalmap", normalmap)
 	terrain_material.set("shader_parameter/height", max_height)
-	terrain_material.set("shader_parameter/heightmap_scale", Vector2.ONE)
+	terrain_material.set("shader_parameter/heightmap_scale", 1.0)
 	terrain_material.set("shader_parameter/flat_texture", flat_texture)
 	terrain_material.set("shader_parameter/slope_texture", slant_texture)
 	terrain_material.set("shader_parameter/slope_texture", slope_texture)
