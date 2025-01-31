@@ -5,6 +5,7 @@ uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
 uniform int height;
 uniform float heightmap_scale;
+
 uniform sampler2D flat_texture;
 uniform sampler2D slant_texture;
 uniform sampler2D slope_texture;
@@ -54,19 +55,29 @@ vec4 stochastic_sample(sampler2D tex, vec2 uv) {
 	(textureGrad(tex,uv+hash(bw_vx[2].xy),ddx,ddy)*bw_vx[3].z);
 }
 
+
+
 vec3 get_albedo() {
 	float slope = acos(texture(normalmap, clipped_uv)).z;
 	vec3 final_texture;
 	if(slope < 0.2)
 	{
 		float blend_amount = slope / 0.2f;
-		final_texture = mix(stochastic_sample(flat_texture, clipped_uv * heightmap_size).rgb, stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb, blend_amount);
+		final_texture = mix(
+			stochastic_sample(flat_texture, clipped_uv * heightmap_size).rgb, 
+			stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb, 
+			blend_amount
+		);
 	}
 	
 	if((slope < 0.7) && (slope >= 0.2f))
 	{
 		float blend_amount = (slope - 0.2f) * (1.0f / (0.7f - 0.2f));
-		final_texture = mix(stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb, stochastic_sample(slope_texture, clipped_uv * heightmap_size).rgb, blend_amount);
+		final_texture = mix(
+			stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb, 
+			stochastic_sample(slope_texture, clipped_uv * heightmap_size).rgb, 
+			blend_amount
+		);
 	}
 
 	if(slope >= 0.7) 
@@ -80,7 +91,9 @@ void vertex() {
 	heightmap_size = vec2(textureSize(heightmap, 0));
 	vtx = VERTEX;
 	mdv_mx = MODELVIEW_MATRIX;
+
 	clipped_uv = ((vtx.xz + MODEL_MATRIX[3].xz) / (heightmap_size * heightmap_scale)) + 0.5;
+	
 	if (frustrum_culling() || edge_culling()) {
 		VERTEX = vec3(sqrt(-MODELVIEW_MATRIX[3][3]));
 	} else {
