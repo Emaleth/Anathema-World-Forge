@@ -9,8 +9,9 @@ extends StaticBody3D
 @export var max_height : int
 
 @export_category("slope textures")
-@export var flat : Texture2D
-@export var slope : Texture2D
+@export var flat_texture : Texture2D
+@export var slant_texture : Texture2D
+@export var slope_texture : Texture2D
 
 @onready var terrain_shader : Shader = preload("res://addons/anathema_world_forge/terrain.gdshader")
 
@@ -61,8 +62,9 @@ func _configure_terrain_material():
 	terrain_material.set("shader_parameter/normalmap", normalmap)
 	terrain_material.set("shader_parameter/height", max_height)
 	terrain_material.set("shader_parameter/heightmap_scale", Vector2.ONE)
-	terrain_material.set("shader_parameter/flat_texture", flat)
-	terrain_material.set("shader_parameter/slope_texture", slope)
+	terrain_material.set("shader_parameter/flat_texture", flat_texture)
+	terrain_material.set("shader_parameter/slope_texture", slant_texture)
+	terrain_material.set("shader_parameter/slope_texture", slope_texture)
 
 func _create_terrain_mesh_instance():
 	mesh_instance = MeshInstance3D.new()
