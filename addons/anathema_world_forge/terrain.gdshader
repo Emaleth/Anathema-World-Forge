@@ -55,7 +55,15 @@ vec4 stochastic_sample(sampler2D tex, vec2 uv) {
 	(textureGrad(tex,uv+hash(bw_vx[2].xy),ddx,ddy)*bw_vx[3].z);
 }
 
+vec4 texture_triplanar(sampler2D tex, vec3 world_pos, vec3 blend) {
+	vec4 xaxis = stochastic_sample(tex, world_pos.yz);
+	vec4 yaxis = stochastic_sample(tex, world_pos.xz);
+	vec4 zaxis = stochastic_sample(tex, world_pos.xy);
+	return xaxis * blend.x + yaxis * blend.y + zaxis * blend.z;
+}
+
 vec3 get_albedo() {
+	//float slope = acos(dot((texture(normalmap, clipped_uv) * 2.0 - 1.0).rgb, vec3(0.0, 0.0, 1.0)));
 	float slope = acos(texture(normalmap, clipped_uv)).z;
 	vec3 final_texture;
 	if(slope < 0.2)
@@ -104,6 +112,8 @@ void fragment() {
 		discard;
 	}
 
+	//ALBEDO = texture_triplanar(flat_texture, vtx * heightmap_size.x, vec3(1.0)-texture(normalmap, clipped_uv).rgb).rgb;
+	//ALBEDO = stochastic_sample(flat_texture, clipped_uv).rgb;
 	ALBEDO = get_albedo();
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
 	NORMAL_MAP_DEPTH = float(height);
