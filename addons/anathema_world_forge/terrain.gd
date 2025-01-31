@@ -34,6 +34,7 @@ func move_terrain(pos : Vector3) -> void:
 
 func _generate() -> void:
 	_clear_children()
+	_reset_position()
 	_check_if_normalmap_existis()
 	_create_terrain_collision_shape()
 	_configure_terrain_material()
@@ -80,3 +81,5 @@ func _check_if_normalmap_existis():
 	normalmap = heightmap.duplicate()
 	normalmap.get_image().bump_map_to_normal_map(max_height)
 	 
+func _reset_position():
+	global_position = Vector3.ZERO
