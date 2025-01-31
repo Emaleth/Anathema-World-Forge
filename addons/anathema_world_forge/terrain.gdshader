@@ -55,8 +55,6 @@ vec4 stochastic_sample(sampler2D tex, vec2 uv) {
 	(textureGrad(tex,uv+hash(bw_vx[2].xy),ddx,ddy)*bw_vx[3].z);
 }
 
-
-
 vec3 get_albedo() {
 	float slope = acos(texture(normalmap, clipped_uv)).z;
 	vec3 final_texture;
@@ -105,6 +103,7 @@ void fragment() {
 	if (frustrum_culling() || edge_culling()) {
 		discard;
 	}
+
 	ALBEDO = get_albedo();
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
 	NORMAL_MAP_DEPTH = float(height);
