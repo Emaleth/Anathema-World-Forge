@@ -39,7 +39,7 @@ void fragment() {
 	if (frustrum_culling() || (clipped_uv.x > 1.0) || (clipped_uv.y > 1.0) || (clipped_uv.x < 0.0) || (clipped_uv.y < 0.0)) {
 		discard;
 	}
-	float slope = acos(dot((texture(normalmap, clipped_uv) * 2.0 - 1.0).rgb, vec3(0.0, 0.0, 1.0)));
+	float slope = acos(texture(normalmap, clipped_uv)).z;
 	vec3 final_texture;
 	if(slope < 0.2)
 	{
@@ -60,4 +60,5 @@ void fragment() {
 	ALBEDO = final_texture;
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
 	NORMAL_MAP_DEPTH = float(height);
+	ROUGHNESS = 1.0;
 }

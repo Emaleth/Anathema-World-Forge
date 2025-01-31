@@ -7,6 +7,7 @@ extends StaticBody3D
 @export var normalmap : Texture2D
 @export var clipmap_mesh : Mesh
 @export var max_height : int
+@export var heightmap_scale : int
 
 @export_category("slope textures")
 @export var flat_texture : Texture2D
@@ -61,7 +62,7 @@ func _configure_terrain_material():
 	terrain_material.set("shader_parameter/heightmap", heightmap)
 	terrain_material.set("shader_parameter/normalmap", normalmap)
 	terrain_material.set("shader_parameter/height", max_height)
-	terrain_material.set("shader_parameter/heightmap_scale", 1.0)
+	terrain_material.set("shader_parameter/heightmap_scale", heightmap_scale)
 	terrain_material.set("shader_parameter/flat_texture", flat_texture)
 	terrain_material.set("shader_parameter/slope_texture", slant_texture)
 	terrain_material.set("shader_parameter/slope_texture", slope_texture)
