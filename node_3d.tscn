@@ -19,3 +19,6 @@ max_height = 20
 flat_texture = ExtResource("5_dy6mq")
 slant_texture = ExtResource("6_u88dk")
 slope_texture = ExtResource("7_fqduf")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.342296, -0.183264, 0.921546, -0.766556, 0.512705, 0.386686, -0.543347, -0.838778, 0.0350152, 0, 35.6216, 0)

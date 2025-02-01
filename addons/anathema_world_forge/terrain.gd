@@ -78,6 +78,7 @@ func _create_terrain_mesh_instance():
 	mesh_instance.material_override = terrain_material
 	
 func _check_if_normalmap_existis():
+#FIXME: find out why godot generated normalmap is fucked. 
 	if normalmap:
 		return
 	normalmap = heightmap.duplicate()
