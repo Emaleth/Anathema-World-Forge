@@ -3,6 +3,7 @@ extends StaticBody3D
 
 @export_category("basic")
 @export var generate := false
+@export var show_collision_shape_in_editor := false
 @export var heightmap : Texture2D
 @export var normalmap : Texture2D
 @export var clipmap_mesh : Mesh
@@ -47,7 +48,8 @@ func _clear_children():
 func _create_terrain_collision_shape():
 	collision_shape = CollisionShape3D.new()
 	self.add_child(collision_shape)
-	#collision_shape.owner = self
+	if show_collision_shape_in_editor:
+		collision_shape.owner = self
 	var hms = HeightMapShape3D.new()
 	var hm_img = heightmap.get_image()
 	hm_img.decompress()
@@ -79,7 +81,8 @@ func _check_if_normalmap_existis():
 	if normalmap:
 		return
 	normalmap = heightmap.duplicate()
-	normalmap.get_image().bump_map_to_normal_map(max_height)
+	normalmap.get_image().bump_map_to_normal_map(1)
 	 
 func _reset_position():
 	global_position = Vector3.ZERO
+	global_rotation = Vector3.ZERO

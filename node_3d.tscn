@@ -20,9 +20,3 @@ heightmap_scale = 1
 flat_texture = ExtResource("5_dy6mq")
 slant_texture = ExtResource("6_u88dk")
 slope_texture = ExtResource("7_fqduf")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.537453, -0.831838, 0.13853, 0.287161, -0.0260776, 0.957524, -0.792898, 0.554409, 0.25288, 0, 37.4213, 0)
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.658217, 0, 0.752829, 0, 1, 0, -0.752829, 0, 0.658217, 0, 14.7092, 0)

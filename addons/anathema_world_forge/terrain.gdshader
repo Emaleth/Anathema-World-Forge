@@ -1,10 +1,11 @@
 shader_type spatial;
-//render_mode world_vertex_coords;
+
 
 uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
 uniform int height;
 uniform float heightmap_scale;
+uniform float slope_fix = 4.0;
 
 uniform sampler2D flat_texture;
 uniform sampler2D slant_texture;
@@ -14,6 +15,7 @@ varying vec2 heightmap_size;
 varying mat4 mdv_mx;
 varying vec2 clipped_uv;
 varying vec3 vtx;
+
 
 bool frustrum_culling() {
 	float z_dist = clamp((mdv_mx * vec4(vtx, 1.0)).z * -1.0,0.0, 2000.0 + 10.0);
@@ -55,16 +57,21 @@ vec4 stochastic_sample(sampler2D tex, vec2 uv) {
 	(textureGrad(tex,uv+hash(bw_vx[2].xy),ddx,ddy)*bw_vx[3].z);
 }
 
-vec4 texture_triplanar(sampler2D tex, vec3 world_pos, vec3 blend) {
-	vec4 xaxis = stochastic_sample(tex, world_pos.yz);
-	vec4 yaxis = stochastic_sample(tex, world_pos.xz);
-	vec4 zaxis = stochastic_sample(tex, world_pos.xy);
-	return xaxis * blend.x + yaxis * blend.y + zaxis * blend.z;
+vec4 triplanar_stochastic_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_triplanar_pos) {
+	vec4 samp=vec4(0.0);
+	samp+= stochastic_sample(p_sampler,p_triplanar_pos.xy) * p_weights.z;
+	samp+= stochastic_sample(p_sampler,p_triplanar_pos.xz) * p_weights.y;
+	samp+= stochastic_sample(p_sampler,p_triplanar_pos.zy * vec2(-1.0,1.0)) * p_weights.x;
+	return samp;
 }
 
-vec3 get_albedo() {
-	//float slope = acos(dot((texture(normalmap, clipped_uv) * 2.0 - 1.0).rgb, vec3(0.0, 0.0, 1.0)));
-	float slope = acos(texture(normalmap, clipped_uv) * 2.0 - 1.0).z;
+float get_slope() {
+	float slope;
+	slope = acos((texture(normalmap, clipped_uv).rgb * 2.0 - 1.0).z);
+	return slope * slope_fix;
+}
+
+vec3 get_albedo(float slope) {
 	vec3 final_texture;
 	if(slope < 0.2)
 	{
@@ -74,7 +81,6 @@ vec3 get_albedo() {
 			stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb, 
 			blend_amount
 		);
-		final_texture = stochastic_sample(flat_texture, clipped_uv * heightmap_size).rgb;
 	}
 	
 	if((slope < 0.7) && (slope >= 0.2f))
@@ -85,7 +91,6 @@ vec3 get_albedo() {
 			stochastic_sample(slope_texture, clipped_uv * heightmap_size).rgb, 
 			blend_amount
 		);
-		final_texture = stochastic_sample(slant_texture, clipped_uv * heightmap_size).rgb; 
 	}
 
 	if(slope >= 0.7) 
@@ -99,7 +104,7 @@ void vertex() {
 	heightmap_size = vec2(textureSize(heightmap, 0));
 	vtx = VERTEX;
 	mdv_mx = MODELVIEW_MATRIX;
-
+	
 	clipped_uv = ((vtx.xz + MODEL_MATRIX[3].xz) / (heightmap_size * heightmap_scale)) + 0.5;
 	
 	if (frustrum_culling() || edge_culling()) {
@@ -114,9 +119,7 @@ void fragment() {
 		discard;
 	}
 
-	//ALBEDO = texture_triplanar(flat_texture, texture(heightmap, clipped_uv).rgb * vec3(0.0, float(height), 0.0), acos(texture(normalmap, clipped_uv)).rgb).rgb;
-	//ALBEDO = stochastic_sample(flat_texture, clipped_uv).rgb;
-	ALBEDO = get_albedo();
+	ALBEDO = get_albedo(get_slope());
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
 	NORMAL_MAP_DEPTH = float(height);
 	ROUGHNESS = 1.0;

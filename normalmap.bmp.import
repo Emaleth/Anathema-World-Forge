@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/normalmap.bmp-25628042f704b5ba271177c2556c023
 
 [params]
 
-compress/mode=3
+compress/mode=0
 compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
