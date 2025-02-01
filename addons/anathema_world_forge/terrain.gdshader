@@ -68,21 +68,15 @@ vec4 triplanar_stochastic_texture(sampler2D p_sampler) {
 	return samp;
 }
 
-vec3 unpack_normalmap(vec4 rgba) {
-	vec3 n = rgba.xyz * 2.0 - vec3(1.0);
-	//n.z *= -1.0;
-	return n;
-}
-
 float get_slope() {
+//NOTE: this doesn't work without *3.0, WHY?|
 	float slope;
-	//slope = acos((texture(normalmap, clipped_uv) * 2.0 - 1.0).z);
-	slope = acos(unpack_normalmap(texture(normalmap, clipped_uv)).z);
-	return slope;
+	slope = acos((texture(normalmap, clipped_uv) * 2.0 - 1.0).z);
+	return slope*3.0;
 }
 
-//NOTE: once wverything works, we shall switch to this. 
 //vec3 get_albedo(float slope, float height) {
+//NOTE: once wverything works, we shall switch to this. 
 	//vec3 albedo;
 	//for (int i = 0; i < texture_array.length(); i++) {
 		//if ((slope > minmax_array[i].r - 0.001) && (slope < minmax_array[i].g + 0.001) && (height > minmax_array[i].b) && (height < minmax_array[i].a)) {

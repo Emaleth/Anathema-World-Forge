@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/heightmap.bmp-fa736de6566ab93998b5b5581088955
 
 [params]
 
-compress/mode=3
+compress/mode=0
 compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
