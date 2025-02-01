@@ -7,8 +7,8 @@ extends StaticBody3D
 @export var heightmap : Texture2D
 @export var normalmap : Texture2D
 @export var clipmap_mesh : Mesh
-@export var max_height : int
-@export var heightmap_scale : int
+@export var max_height : int = 0
+@export var heightmap_scale : int = 1
 
 @export_category("slope textures")
 @export var flat_texture : Texture2D
@@ -81,7 +81,7 @@ func _check_if_normalmap_existis():
 	if normalmap:
 		return
 	normalmap = heightmap.duplicate()
-	normalmap.get_image().bump_map_to_normal_map(1)
+	normalmap.get_image().bump_map_to_normal_map()
 	 
 func _reset_position():
 	global_position = Vector3.ZERO

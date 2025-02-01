@@ -5,7 +5,6 @@ uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
 uniform int height;
 uniform float heightmap_scale;
-uniform float slope_fix = 4.0;
 
 uniform sampler2D flat_texture;
 uniform sampler2D slant_texture;
@@ -67,8 +66,8 @@ vec4 triplanar_stochastic_texture(sampler2D p_sampler,vec3 p_weights,vec3 p_trip
 
 float get_slope() {
 	float slope;
-	slope = acos((texture(normalmap, clipped_uv).rgb * 2.0 - 1.0).z);
-	return slope * slope_fix;
+	slope = acos(texture(normalmap, clipped_uv) * 2.0 -1.0).z;
+	return slope*4.0;
 }
 
 vec3 get_albedo(float slope) {

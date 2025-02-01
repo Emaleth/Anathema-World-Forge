@@ -16,7 +16,6 @@ heightmap = ExtResource("2_v27u7")
 normalmap = ExtResource("3_iv44s")
 clipmap_mesh = ExtResource("4_p8n6b")
 max_height = 20
-heightmap_scale = 1
 flat_texture = ExtResource("5_dy6mq")
 slant_texture = ExtResource("6_u88dk")
 slope_texture = ExtResource("7_fqduf")
