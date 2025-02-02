@@ -54,8 +54,7 @@ func _create_terrain_collision_shape():
 	var hms = HeightMapShape3D.new()
 	var hm_img = heightmap.get_image()
 	hm_img.decompress()
-	#hm_img.convert(Image.FORMAT_RH)
-	#hm_img.convert(Image.FORMAT_R)
+	hm_img.convert(Image.FORMAT_RH)
 	hms.update_map_data_from_image(hm_img, 0.0, abs(max_height) + abs(max_depth))
 	terrain_collision_shape.shape = hms
 	terrain_collision_shape.top_level = true

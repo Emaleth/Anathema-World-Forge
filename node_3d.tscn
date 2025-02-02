@@ -16,7 +16,6 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0045, 0, 8.51669)
 script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_v27u7")
 normalmap = ExtResource("3_iv44s")
@@ -28,7 +27,6 @@ slant_texture = ExtResource("6_rs6vq")
 slope_texture = ExtResource("7_8clpe")
 
 [node name="Water" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0045, 0, 8.51669)
 script = ExtResource("8_g64mt")
 clipmap_mesh = ExtResource("4_p8n6b")
 heightmap_size = 256
@@ -38,4 +36,4 @@ water_specular_texture = ExtResource("11_axifi")
 water_displacement_texture = ExtResource("12_du1ri")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.395605, -0.292608, -0.870562, 0.740454, -0.459165, 0.490812, -0.543346, -0.838778, 0.0350147, 29.2719, 35.6216, 17.8446)
+transform = Transform3D(0.729381, -0.451007, 0.51439, -0.415667, 0.305032, 0.856841, -0.543346, -0.838778, 0.0350148, 29.2719, 35.6216, 17.8446)
