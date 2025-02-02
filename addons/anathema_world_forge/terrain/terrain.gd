@@ -4,20 +4,33 @@ extends StaticBody3D
 @export_category("basic")
 @export var generate := false
 @export var show_collision_shape_in_editor := false
-@export var heightmap : Texture2D
-@export var normalmap : Texture2D
+@export var heightmap : Image
 @export var clipmap_mesh : Mesh
 @export var max_height : int = 0
 @export var max_depth : int = 0
 @export var heightmap_scale : int = 1
 
-@export_category("slope textures")
-@export var flat_texture : Texture2D
-@export var slant_texture : Texture2D
-@export var slope_texture : Texture2D
+@onready var procedural_textures : Dictionary = {
+	"grass" : {
+		"texture" : preload("res://grass.dds"),
+		"slope" : [0.0, 0.2],
+		"height" : [-10.0, 10.0]
+	}, 
+	"slope" : {
+		"texture" : preload("res://slope.dds"),
+		"slope" : [0.2, 0.7],
+		"height" : [-10.0, 10.0]
+	}, 
+	"rock" : {
+		"texture" : preload("res://rock.dds"),
+		"slope" : [0.7, 1.0],
+		"height" : [-10.0, 10.0]
+	}
+}
 
 @onready var terrain_shader : Shader = preload("res://addons/anathema_world_forge/terrain/terrain.gdshader")
 
+var normalmap : Image
 var terrain_material : ShaderMaterial
 var terrain_mesh_instance : MeshInstance3D
 var terrain_collision_shape : CollisionShape3D
@@ -37,7 +50,7 @@ func move_terrain(pos : Vector3) -> void:
 func _generate() -> void:
 	_clear_children()
 	_reset_position()
-	_check_if_normalmap_existis()
+	_generate_normalmap()
 	_create_terrain_collision_shape()
 	_configure_terrain_material()
 	_create_terrain_mesh_instance()
@@ -52,9 +65,9 @@ func _create_terrain_collision_shape():
 	if show_collision_shape_in_editor:
 		terrain_collision_shape.owner = self
 	var hms = HeightMapShape3D.new()
-	var hm_img = heightmap.get_image()
+	var hm_img = heightmap
 	hm_img.decompress()
-	hm_img.convert(Image.FORMAT_RH)
+	hm_img.convert(Image.FORMAT_RF)
 	hms.update_map_data_from_image(hm_img, 0.0, abs(max_height) + abs(max_depth))
 	terrain_collision_shape.shape = hms
 	terrain_collision_shape.top_level = true
@@ -64,15 +77,34 @@ func _create_terrain_collision_shape():
 func _configure_terrain_material():
 	terrain_material = ShaderMaterial.new()
 	terrain_material.shader = terrain_shader
-	terrain_material.set("shader_parameter/heightmap", heightmap)
-	terrain_material.set("shader_parameter/normalmap", normalmap)
+	terrain_material.set("shader_parameter/heightmap", generate_texture_from_image(heightmap))
+	terrain_material.set("shader_parameter/normalmap", generate_texture_from_image(normalmap))
 	terrain_material.set("shader_parameter/max_height", max_height)
 	terrain_material.set("shader_parameter/max_depth", max_depth)
 	terrain_material.set("shader_parameter/heightmap_scale", heightmap_scale)
-	terrain_material.set("shader_parameter/flat_texture", flat_texture)
-	terrain_material.set("shader_parameter/slant_texture", slant_texture)
-	terrain_material.set("shader_parameter/slope_texture", slope_texture)
 
+	var texture_array : Array = []
+	for i in procedural_textures:
+		texture_array.append(procedural_textures[i]["texture"])
+	terrain_material.set("shader_parameter/texture_array", texture_array)
+
+	var minmax_array : PackedColorArray = []
+	for i in procedural_textures:
+		minmax_array.append(Color(
+			procedural_textures[i]["slope"][0],
+			procedural_textures[i]["slope"][1],
+			reduce_to_raw_heightmap_height(procedural_textures[i]["height"][0]),
+			reduce_to_raw_heightmap_height(procedural_textures[i]["height"][1])
+			))
+	terrain_material.set("shader_parameter/minmax_array", minmax_array)
+	
+func reduce_to_raw_heightmap_height(m_height):
+	var final_value : float
+	final_value = (m_height - abs(max_depth)) / (abs(max_height) + abs(max_depth))
+	#final_value = (m_height) / (abs(max_height))
+	final_value = clamp(final_value, 0.0, 1.0)
+	return final_value
+	
 func _create_terrain_mesh_instance():
 	terrain_mesh_instance = MeshInstance3D.new()
 	self.add_child(terrain_mesh_instance)
@@ -81,13 +113,15 @@ func _create_terrain_mesh_instance():
 	terrain_mesh_instance.material_override = terrain_material
 	terrain_mesh_instance.global_position.y = -abs(max_depth)
 	
-func _check_if_normalmap_existis():
-#FIXME: find out why godot generated normalmap is fucked. 
-	if normalmap:
-		return
+func _generate_normalmap():
 	normalmap = heightmap.duplicate()
-	normalmap.get_image().bump_map_to_normal_map()
+	normalmap.bump_map_to_normal_map(abs(max_height) + abs(max_depth))
 	 
 func _reset_position():
 	global_position = Vector3.ZERO
 	global_rotation = Vector3.ZERO
+
+func generate_texture_from_image(image : Image) -> ImageTexture:
+	var texture := ImageTexture.new()
+	texture.set_image(image)
+	return texture
