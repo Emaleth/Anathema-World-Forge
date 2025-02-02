@@ -4,19 +4,21 @@ shader_type spatial;
 
 uniform sampler2D heightmap;
 uniform sampler2D normalmap : hint_normal;
-uniform int height;
+uniform int max_height;
+uniform int max_depth;
 uniform float heightmap_scale;
 
 uniform sampler2D flat_texture;
 uniform sampler2D slant_texture;
 uniform sampler2D slope_texture;
 
-varying vec2 heightmap_size;
 varying mat4 mdv_mx;
 varying vec2 clipped_uv;
 varying vec3 vtx;
 varying vec3 uv_triplanar_pos;
 varying vec3 uv_power_normal;
+varying flat int height;
+
 
 bool frustrum_culling() {
 	float z_dist = clamp((mdv_mx * vec4(vtx, 1.0)).z * -1.0,0.0, 2000.0 + 10.0);
@@ -72,6 +74,9 @@ float get_slope() {
 //NOTE: this doesn't work without *3.0, WHY?|
 	float slope;
 	slope = acos((texture(normalmap, clipped_uv) * 2.0 - 1.0).z);
+	//slope = acos(uv_power_normal.z * 2.0 - 1.0);
+	//slope = uv_power_normal.z;
+	//slope = 1.0 - acos(dot(uv_power_normal, vec3(0.0, 0.0, 1.0)) * 2.0 - 1.0);
 	return slope*3.0;
 }
 
@@ -119,15 +124,16 @@ vec3 get_albedo(float slope) {
 }
 
 void vertex() {
-	heightmap_size = vec2(textureSize(heightmap, 0));
+	vec2 heightmap_size = vec2(textureSize(heightmap, 0));
 	vtx = VERTEX;
 	mdv_mx = MODELVIEW_MATRIX;
-	
+	height = abs(max_height) + abs(max_depth);
+
 	uv_power_normal = pow(abs(NORMAL), vec3(1.0));
 	uv_triplanar_pos = VERTEX;
 	uv_power_normal /= dot(uv_power_normal, vec3(1.0));
 	uv_triplanar_pos *= vec3(1.0, -1.0, 1.0);
-	
+
 	clipped_uv = ((vtx.xz + MODEL_MATRIX[3].xz) / (heightmap_size * heightmap_scale)) + 0.5;
 	
 	if (frustrum_culling() || edge_culling()) {
