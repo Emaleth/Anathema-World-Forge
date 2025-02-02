@@ -14,17 +14,17 @@ extends StaticBody3D
 	"grass" : {
 		"texture" : preload("res://grass.dds"),
 		"slope" : [0.0, 0.2],
-		"height" : [-10.0, 10.0]
+		"height" : [0.0, 30.0]
 	}, 
 	"slope" : {
 		"texture" : preload("res://slope.dds"),
 		"slope" : [0.2, 0.7],
-		"height" : [-10.0, 10.0]
+		"height" : [0.0, 30.0]
 	}, 
 	"rock" : {
 		"texture" : preload("res://rock.dds"),
 		"slope" : [0.7, 1.0],
-		"height" : [-10.0, 10.0]
+		"height" : [0.0, 30.0]
 	}
 }
 
@@ -101,7 +101,6 @@ func _configure_terrain_material():
 func reduce_to_raw_heightmap_height(m_height):
 	var final_value : float
 	final_value = (m_height - abs(max_depth)) / (abs(max_height) + abs(max_depth))
-	#final_value = (m_height) / (abs(max_height))
 	final_value = clamp(final_value, 0.0, 1.0)
 	return final_value
 	

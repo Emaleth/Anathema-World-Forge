@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c5fp4vbqgm8oe"]
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain/terrain.gd" id="1_hmxjr"]
-[ext_resource type="Image" uid="uid://3u4qn66ce0vd" path="res://heightmap.bmp" id="2_v27u7"]
+[ext_resource type="Image" uid="uid://dauk3a4c6yr33" path="res://Heightmap.png" id="2_47gs0"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
 [ext_resource type="Script" path="res://addons/anathema_world_forge/water/water.gd" id="8_g64mt"]
 [ext_resource type="Texture2D" uid="uid://ckfkwimo320i4" path="res://Water_001_COLOR.jpg" id="9_3wwe0"]
@@ -12,11 +12,11 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.28956, -1.90735e-06, 13.4855)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66.5586, 0, -25.0332)
 script = ExtResource("1_hmxjr")
-heightmap = ExtResource("2_v27u7")
+heightmap = ExtResource("2_47gs0")
 clipmap_mesh = ExtResource("4_p8n6b")
-max_height = 20
+max_height = 10
 
 [node name="Water" type="StaticBody3D" parent="."]
 visible = false

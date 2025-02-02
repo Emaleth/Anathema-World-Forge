@@ -1,5 +1,5 @@
 shader_type spatial;
-//render_mode world_vertex_coords;
+render_mode world_vertex_coords;
 
 
 const int array_size = 5;
@@ -110,7 +110,7 @@ void vertex() {
 	uv_power_normal /= dot(uv_power_normal, vec3(1.0));
 	uv_triplanar_pos *= vec3(1.0, -1.0, 1.0);
 
-	clipped_uv = ((vtx.xz + MODEL_MATRIX[3].xz) / (heightmap_size * heightmap_scale)) + 0.5;
+	clipped_uv = (vtx.xz / (heightmap_size * heightmap_scale)) + 0.5;
 	
 	if (frustrum_culling() || edge_culling()) {
 		VERTEX = vec3(sqrt(-MODELVIEW_MATRIX[3][3]));
