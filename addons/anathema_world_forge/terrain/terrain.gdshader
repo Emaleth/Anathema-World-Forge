@@ -11,7 +11,9 @@ uniform int max_height;
 uniform int max_depth;
 uniform float heightmap_scale;
 
-uniform sampler2D[array_size] texture_array : source_color;
+uniform sampler2D[array_size] albedo_texture_array : source_color;
+uniform sampler2D[array_size] normal_texture_array : source_color;
+uniform sampler2D[array_size] orm_texture_array : source_color;
 uniform vec4[array_size] minmax_array : source_color;
 
 varying mat4 mdv_mx;
@@ -84,7 +86,7 @@ float get_height() {
 	return height;
 }
 
-vec3 get_albedo() {
+vec3 get_albedo(sampler2D[array_size] texture_array) {
 	float slope = get_slope();
 	float height = get_height();
 	vec3 albedo;
@@ -124,7 +126,7 @@ void fragment() {
 		discard;
 	}
 
-	ALBEDO = get_albedo();
+	ALBEDO = get_albedo(albedo_texture_array);
 	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
 	ROUGHNESS = 1.0;
 }

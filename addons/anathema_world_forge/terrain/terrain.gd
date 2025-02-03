@@ -13,28 +13,38 @@ extends StaticBody3D
 var procedural_textures : Dictionary = {
 	"sand" : {
 		"albedo_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
-		"minmax_slope" : [0.0, 1.0],
-		"minmax_height" : [0.0, 10.0]
+		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 0.7],
+		"minmax_height" : [-5.0, 1.0]
 	}, 
 	"grass" : {
 		"albedo_texture" : preload("res://Grass008_1K-PNG/Grass008_1K-PNG_Color.png"),
-		"minmax_slope" : [0.0, 1.0],
-		"minmax_height" : [-5.0, 0.0]
+		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 0.5],
+		"minmax_height" : [1.0, 20.0]
 	}, 
 	"rock_moss" : {
 		"albedo_texture" : preload("res://Rock053_1K-PNG/Rock053_1K-PNG_Color.png"),
-		"minmax_slope" : [0.0, 1.0],
-		"minmax_height" : [10.0, 25.0]
+		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.5, 0.7],
+		"minmax_height" : [1.0, 20.0]
 	}, 
 	"rock" : {
 		"albedo_texture" : preload("res://Rock030_1K-PNG/Rock030_1K-PNG_Color.png"),
-		"minmax_slope" : [0.0, 1.0],
-		"minmax_height" : [10.0, 25.0]
+		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.7, 1.0],
+		"minmax_height" : [-5.0, 25.0]
 	}, 
 	"snow" : {
 		"albedo_texture" : preload("res://Snow010A_1K-PNG/Snow010A_1K-PNG_Color.png"),
-		"minmax_slope" : [0.0, 1.0],
-		"minmax_height" : [10.0, 25.0]
+		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 0.7],
+		"minmax_height" : [20.0, 25.0]
 	}
 }
 
@@ -93,11 +103,21 @@ func _configure_terrain_material():
 	terrain_material.set("shader_parameter/max_depth", max_depth)
 	terrain_material.set("shader_parameter/heightmap_scale", heightmap_scale)
 
-	var texture_array : Array = []
+	var albedo_texture_array : Array = []
 	for i in procedural_textures:
-		texture_array.append(procedural_textures[i]["albedo_texture"])
-	terrain_material.set("shader_parameter/texture_array", texture_array)
+		albedo_texture_array.append(procedural_textures[i]["albedo_texture"])
+	terrain_material.set("shader_parameter/albedo_texture_array", albedo_texture_array)
+	
+	var normal_texture_array : Array = []
+	for i in procedural_textures:
+		normal_texture_array.append(procedural_textures[i]["albedo_texture"])
+	terrain_material.set("shader_parameter/normal_texture_array", normal_texture_array)
 
+	var orm_texture_array : Array = []
+	for i in procedural_textures:
+		orm_texture_array.append(procedural_textures[i]["albedo_texture"])
+	terrain_material.set("shader_parameter/orm_texture_array", orm_texture_array)
+	
 	var minmax_array : PackedColorArray = []
 	for i in procedural_textures:
 		minmax_array.append(Color(
