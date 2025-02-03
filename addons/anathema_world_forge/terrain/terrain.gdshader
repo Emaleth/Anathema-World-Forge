@@ -115,7 +115,7 @@ void vertex() {
 	if (frustrum_culling() || edge_culling()) {
 		VERTEX = vec3(sqrt(-MODELVIEW_MATRIX[3][3]));
 	} else {
-		VERTEX.y = texture(heightmap, clipped_uv).r * float(absolute_height);
+		VERTEX.y = (get_height() * float(absolute_height)) - float(max_depth);
 	}
 }
 

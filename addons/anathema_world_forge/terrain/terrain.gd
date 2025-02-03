@@ -10,21 +10,31 @@ extends StaticBody3D
 @export var max_depth : int = 0
 @export var heightmap_scale : int = 1
 
-@onready var procedural_textures : Dictionary = {
-	"grass" : {
-		"texture" : preload("res://grass.dds"),
-		"slope" : [0.0, 0.2],
-		"height" : [0.0, 30.0]
+var procedural_textures : Dictionary = {
+	"sand" : {
+		"albedo_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 1.0],
+		"minmax_height" : [0.0, 10.0]
 	}, 
-	"slope" : {
-		"texture" : preload("res://slope.dds"),
-		"slope" : [0.2, 0.7],
-		"height" : [0.0, 30.0]
+	"grass" : {
+		"albedo_texture" : preload("res://Grass008_1K-PNG/Grass008_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 1.0],
+		"minmax_height" : [-5.0, 0.0]
+	}, 
+	"rock_moss" : {
+		"albedo_texture" : preload("res://Rock053_1K-PNG/Rock053_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 1.0],
+		"minmax_height" : [10.0, 25.0]
 	}, 
 	"rock" : {
-		"texture" : preload("res://rock.dds"),
-		"slope" : [0.7, 1.0],
-		"height" : [0.0, 30.0]
+		"albedo_texture" : preload("res://Rock030_1K-PNG/Rock030_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 1.0],
+		"minmax_height" : [10.0, 25.0]
+	}, 
+	"snow" : {
+		"albedo_texture" : preload("res://Snow010A_1K-PNG/Snow010A_1K-PNG_Color.png"),
+		"minmax_slope" : [0.0, 1.0],
+		"minmax_height" : [10.0, 25.0]
 	}
 }
 
@@ -85,22 +95,22 @@ func _configure_terrain_material():
 
 	var texture_array : Array = []
 	for i in procedural_textures:
-		texture_array.append(procedural_textures[i]["texture"])
+		texture_array.append(procedural_textures[i]["albedo_texture"])
 	terrain_material.set("shader_parameter/texture_array", texture_array)
 
 	var minmax_array : PackedColorArray = []
 	for i in procedural_textures:
 		minmax_array.append(Color(
-			procedural_textures[i]["slope"][0],
-			procedural_textures[i]["slope"][1],
-			reduce_to_raw_heightmap_height(procedural_textures[i]["height"][0]),
-			reduce_to_raw_heightmap_height(procedural_textures[i]["height"][1])
+			procedural_textures[i]["minmax_slope"][0],
+			procedural_textures[i]["minmax_slope"][1],
+			reduce_to_raw_heightmap_height(procedural_textures[i]["minmax_height"][0]),
+			reduce_to_raw_heightmap_height(procedural_textures[i]["minmax_height"][1])
 			))
 	terrain_material.set("shader_parameter/minmax_array", minmax_array)
 	
 func reduce_to_raw_heightmap_height(m_height):
 	var final_value : float
-	final_value = (m_height - abs(max_depth)) / (abs(max_height) + abs(max_depth))
+	final_value = (m_height + abs(max_depth)) / (abs(max_height) + abs(max_depth))
 	final_value = clamp(final_value, 0.0, 1.0)
 	return final_value
 	
@@ -110,7 +120,6 @@ func _create_terrain_mesh_instance():
 	terrain_mesh_instance.owner = self
 	terrain_mesh_instance.mesh = clipmap_mesh
 	terrain_mesh_instance.material_override = terrain_material
-	terrain_mesh_instance.global_position.y = -abs(max_depth)
 	
 func _generate_normalmap():
 	normalmap = heightmap.duplicate()

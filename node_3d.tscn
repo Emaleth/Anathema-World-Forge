@@ -12,14 +12,13 @@
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -66.5586, 0, -25.0332)
 script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_47gs0")
 clipmap_mesh = ExtResource("4_p8n6b")
-max_height = 10
+max_height = 25
+max_depth = 5
 
 [node name="Water" type="StaticBody3D" parent="."]
-visible = false
 script = ExtResource("8_g64mt")
 clipmap_mesh = ExtResource("4_p8n6b")
 heightmap_size = 256
