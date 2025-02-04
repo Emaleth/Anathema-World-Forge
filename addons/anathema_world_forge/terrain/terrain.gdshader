@@ -87,26 +87,18 @@ float get_height() {
 }
 
 vec3 get_albedo(sampler2D[array_size] texture_array) {
-	float slope = get_slope();
-	float height = get_height();
-	vec3 albedo;
-	for (int i = 0; i < texture_array.length(); i++) {
-		if ((slope >= minmax_array[i].r) && (slope < minmax_array[i].g) && (height >= minmax_array[i].b) && (height < minmax_array[i].a)) {
-			float blendAmount = min(
-				((slope - minmax_array[i].r) * (1.0f / (minmax_array[i].g - minmax_array[i].r))),
-				((height - minmax_array[i].b) * (1.0f / (minmax_array[i].a - minmax_array[i].b)))
-			);
-			albedo = mix(
-				triplanar_stochastic_texture(texture_array[i]), 
-				triplanar_stochastic_texture(texture_array[min(i+1, texture_array.length() - 1)]), 
-				blendAmount
-			).rgb;
-			break;
-		} else {
-			albedo = base_color;
-		}
-	}
-	return albedo;
+    float slope = get_slope();
+    float height = get_height();
+    vec3 albedo;
+    for (int i = 0; i < texture_array.length(); i++) {
+        if ((slope >= minmax_array[i].r) && (slope < minmax_array[i].g) && (height >= minmax_array[i].b) && (height < minmax_array[i].a)) {
+            albedo = triplanar_stochastic_texture(texture_array[i]).rgb;
+            break;
+        } else {
+            albedo = base_color;
+        }
+    }
+    return albedo;
 }
 
 void vertex() {
