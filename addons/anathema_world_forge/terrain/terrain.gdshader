@@ -127,6 +127,7 @@ void fragment() {
 	}
 
 	ALBEDO = get_albedo(albedo_texture_array);
-	NORMAL_MAP = texture(normalmap, clipped_uv).rgb;
+	NORMAL_MAP = mix(texture(normalmap, clipped_uv).rgb, get_albedo(normal_texture_array), 0.5);
+	NORMAL_MAP_DEPTH = 2.0;
 	ROUGHNESS = 1.0;
 }

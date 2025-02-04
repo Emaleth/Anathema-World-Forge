@@ -28,4 +28,4 @@ water_specular_texture = ExtResource("11_axifi")
 water_displacement_texture = ExtResource("12_du1ri")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.729381, -0.451007, 0.51439, -0.415667, 0.305032, 0.856841, -0.543346, -0.838778, 0.0350148, 29.2719, 35.6216, 17.8446)
+transform = Transform3D(0.602581, -0.418705, -0.679398, 0.584526, -0.348049, 0.732933, -0.543346, -0.838778, 0.0350158, 29.2719, 35.6216, 17.8446)

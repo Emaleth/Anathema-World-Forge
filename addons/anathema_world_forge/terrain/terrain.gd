@@ -20,28 +20,28 @@ var procedural_textures : Dictionary = {
 	}, 
 	"grass" : {
 		"albedo_texture" : preload("res://Grass008_1K-PNG/Grass008_1K-PNG_Color.png"),
-		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
-		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
+		"normal_texture" : preload("res://Grass008_1K-PNG/Grass008_1K-PNG_NormalGL.png"),
+		"orm_texture" : preload("res://Grass008_1K-PNG/Grass008_1K-PNG_Color.png"),
 		"minmax_slope" : [0.0, 0.5],
 		"minmax_height" : [1.0, 20.0]
 	}, 
 	"rock_moss" : {
 		"albedo_texture" : preload("res://Rock053_1K-PNG/Rock053_1K-PNG_Color.png"),
-		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"normal_texture" : preload("res://Rock053_1K-PNG/Rock053_1K-PNG_NormalGL.png"),
 		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
 		"minmax_slope" : [0.5, 0.7],
 		"minmax_height" : [1.0, 20.0]
 	}, 
 	"rock" : {
 		"albedo_texture" : preload("res://Rock030_1K-PNG/Rock030_1K-PNG_Color.png"),
-		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"normal_texture" : preload("res://Rock030_1K-PNG/Rock030_1K-PNG_NormalGL.png"),
 		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
 		"minmax_slope" : [0.7, 1.0],
 		"minmax_height" : [-5.0, 25.0]
 	}, 
 	"snow" : {
 		"albedo_texture" : preload("res://Snow010A_1K-PNG/Snow010A_1K-PNG_Color.png"),
-		"normal_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_NormalGL.png"),
+		"normal_texture" : preload("res://Snow010A_1K-PNG/Snow010A_1K-PNG_NormalGL.png"),
 		"orm_texture" : preload("res://Ground080_1K-PNG/Ground080_1K-PNG_Color.png"),
 		"minmax_slope" : [0.0, 0.7],
 		"minmax_height" : [20.0, 25.0]
