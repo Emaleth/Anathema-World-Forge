@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode world_vertex_coords;
 
-
+const float EPSILON = 0.000001; // NOTE: this is to fix edge case in get_albedo() whe flat terrain at lowest point would have blendWeight of 0.0
 const int array_size = 5;
 const vec3 base_color = vec3(1.0, 0.5, 0.5); 
 
@@ -92,7 +92,15 @@ vec3 get_albedo(sampler2D[array_size] texture_array) {
 	vec3 albedo;
 	for (int i = 0; i < texture_array.length(); i++) {
 		if ((slope >= minmax_array[i].r) && (slope < minmax_array[i].g) && (height >= minmax_array[i].b) && (height < minmax_array[i].a)) {
-			albedo = triplanar_stochastic_texture(texture_array[i]).rgb;
+			float blendAmount = min(
+				((slope - minmax_array[i].r) * (1.0f / (minmax_array[i].g - minmax_array[i].r))),
+				((height - minmax_array[i].b) * (1.0f / (minmax_array[i].a - minmax_array[i].b)))
+			);
+			albedo = mix(
+				triplanar_stochastic_texture(texture_array[i]), 
+				triplanar_stochastic_texture(texture_array[min(i+1, texture_array.length() - 1)]), 
+				blendAmount
+			).rgb;
 			break;
 		} else {
 			albedo = base_color;
