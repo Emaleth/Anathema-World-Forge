@@ -1,7 +1,6 @@
 shader_type spatial;
 render_mode world_vertex_coords;
 
-const float EPSILON = 0.000001; // NOTE: this is to fix edge case in get_albedo() whe flat terrain at lowest point would have blendWeight of 0.0
 const int array_size = 5;
 const vec3 base_color = vec3(1.0, 0.5, 0.5);
 

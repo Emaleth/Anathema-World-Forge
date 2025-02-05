@@ -114,6 +114,6 @@ func _distribute_in_a_grid(m_density):
 		
 func reduce_to_raw_heightmap_height(m_height):
 	var final_value : float
-	final_value = (m_height - TerrainSystem.max_depth) / (TerrainSystem.max_height - TerrainSystem.max_depth)
+	final_value = (m_height + abs(max_depth)) / (abs(max_height) + abs(max_depth))
 	final_value = clamp(final_value, 0.0, 1.0)
 	return final_value

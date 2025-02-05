@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5fp4vbqgm8oe"]
+[gd_scene load_steps=5 format=3 uid="uid://c5fp4vbqgm8oe"]
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain/terrain.gd" id="1_hmxjr"]
 [ext_resource type="Image" uid="uid://dauk3a4c6yr33" path="res://Heightmap.png" id="2_47gs0"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
-[ext_resource type="Script" path="res://addons/anathema_world_forge/foliage/foliage.gd" id="5_pmte8"]
 [ext_resource type="Script" path="res://addons/anathema_world_forge/water/water.gd" id="8_g64mt"]
 
 [node name="Node3D" type="Node3D"]
@@ -20,6 +19,3 @@ script = ExtResource("8_g64mt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.602581, -0.418705, -0.679398, 0.584526, -0.348049, 0.732933, -0.543346, -0.838778, 0.0350158, 29.2719, 35.6216, 17.8446)
-
-[node name="Foliage" type="Node" parent="."]
-script = ExtResource("5_pmte8")
