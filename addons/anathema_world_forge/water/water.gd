@@ -1,5 +1,5 @@
 @tool
-extends StaticBody3D
+extends Area3D
 
 @export_category("basic")
 @export var generate := false

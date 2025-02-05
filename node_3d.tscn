@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5fp4vbqgm8oe"]
+[gd_scene load_steps=6 format=3 uid="uid://c5fp4vbqgm8oe"]
 
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain/terrain.gd" id="1_hmxjr"]
 [ext_resource type="Image" uid="uid://dauk3a4c6yr33" path="res://Heightmap.png" id="2_47gs0"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
+[ext_resource type="Script" path="res://addons/anathema_world_forge/foliage/foliage.gd" id="5_pmte8"]
 [ext_resource type="Script" path="res://addons/anathema_world_forge/water/water.gd" id="8_g64mt"]
-[ext_resource type="Texture2D" uid="uid://ckfkwimo320i4" path="res://Water_001_COLOR.jpg" id="9_3wwe0"]
-[ext_resource type="Texture2D" uid="uid://dyjpujwg8bilq" path="res://Water_001_NORM.jpg" id="10_4uiam"]
-[ext_resource type="Texture2D" uid="uid://c0kfvsg0jmcf0" path="res://Water_001_SPEC.jpg" id="11_axifi"]
-[ext_resource type="Texture2D" uid="uid://c1pi564kx73ka" path="res://Water_001_DISP.png" id="12_du1ri"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -20,12 +17,9 @@ max_depth = 5
 
 [node name="Water" type="StaticBody3D" parent="."]
 script = ExtResource("8_g64mt")
-clipmap_mesh = ExtResource("4_p8n6b")
-heightmap_size = 256
-water_albedo_texture = ExtResource("9_3wwe0")
-water_normal_texture = ExtResource("10_4uiam")
-water_specular_texture = ExtResource("11_axifi")
-water_displacement_texture = ExtResource("12_du1ri")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.602581, -0.418705, -0.679398, 0.584526, -0.348049, 0.732933, -0.543346, -0.838778, 0.0350158, 29.2719, 35.6216, 17.8446)
+
+[node name="Foliage" type="Node" parent="."]
+script = ExtResource("5_pmte8")
