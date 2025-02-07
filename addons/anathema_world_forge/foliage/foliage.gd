@@ -1,38 +1,48 @@
 @tool
 extends Node
 
+@export var generate := false
+@export var heightmap : Image
+
+@export var max_height : int = 0
+@export var max_depth : int = 0
+@export var heightmap_scale : int = 1
 
 var _foliage_index : Dictionary = {
 	"grass" : {
 		"slope" : [0.0, 0.7],
 		"height" : [0.5, 100.0],
-		"mesh" : preload(""),
-		"texture" : preload("res://foliage_system/assets/grass.png"),
+		"mesh" : preload("res://foliage_mesh.tres"),
+		"albedo_texture" : preload("res://sprite_0005.png"),
 		"density" : 64,
 		"patch_size" : 8
 	}
 }
 
+@onready var foliage_shader : Shader = preload("res://addons/anathema_world_forge/foliage/foliage.gdshader")
 
-# API
-func start():
+var foliage_material : ShaderMaterial
+
+func _ready() -> void:
+	_generate()
+	
+func _process(delta: float) -> void:
+	if generate == false: return
+	_generate()
+	generate = false
+
+func move_foliage(pos : Vector3) -> void:
+	for i in _foliage_index:
+		_foliage_index[i]["multimesh"].global_transform.origin = Vector3(pos.x, 0, pos.z).snapped(Vector3(1, 1, 1))
+	
+func _generate() -> void:
+	_clear_children()
 	_create_and_configure_multimeshes()
-	_get_instance_positions()
-	_running = true
+
 	
-	
-func stop():
-	_running = false
-	
-	
-func setup(m_foliage_index):
-	if m_foliage_index:
-		_foliage_index = m_foliage_index
-	
-	
-func reset():
-	_running = false
-	_clear_node_tree()
+func _clear_children():
+	for i in get_children():
+		i.queue_free()
 	
 		
 		
@@ -50,8 +60,7 @@ func _create_and_configure_multimeshes():
 		
 		_configure_shader(i)
 		_foliage_index[i]["multimesh"].material_override = _foliage_index[i]["material"]
-#		_foliage_index[i]["multimesh"].material_overlay = preload("res://foliage_system/grass.tres")
-		_foliage_index[i]["multimesh"].extra_cull_margin = max(TerrainSystem.max_height, TerrainSystem.max_depth)
+		_foliage_index[i]["multimesh"].extra_cull_margin = abs(max_height) + abs(max_depth)
 		
 		
 func _configure_shader(m_i):
@@ -70,7 +79,7 @@ func _configure_shader(m_i):
 	_foliage_index[m_i]["material"].set_shader_parameter("top_color", _foliage_index[m_i]["top_color"])
 	_foliage_index[m_i]["material"].set_shader_parameter("bottom_color", _foliage_index[m_i]["bottom_color"])
 	_foliage_index[m_i]["material"].set_shader_parameter("is_dynamic", _foliage_index[m_i]["is_dynamic"])
-	_foliage_index[m_i]["material"].set_shader_parameter("texturee", _foliage_index[m_i]["texture"])
+	_foliage_index[m_i]["material"].set_shader_parameter("albedo_texture", _foliage_index[m_i]["albedo_texture"])
 
 
 func _get_instance_positions():
@@ -91,11 +100,6 @@ func _get_instance_positions():
 			if z >= valid_positions.size():
 				return
 			_foliage_index[i]["multimesh"].multimesh.set_instance_transform(z, valid_positions[z - 1])
-
-
-func move_foliage(_origin):
-	for i in _foliage_index:
-		_foliage_index[i]["multimesh"].global_transform.origin = Vector3(_origin.x, 0, _origin.z).snapped(Vector3(1, 1, 1))
 
 
 func _distribute_in_a_grid(m_density):
