@@ -117,6 +117,7 @@ void vertex() {
 		VERTEX = vec3(sqrt(-MODELVIEW_MATRIX[3][3]));
 	} else {
 		VERTEX.y = (get_height() * float(absolute_height)) - float(max_depth);
+
 	}
 }
 

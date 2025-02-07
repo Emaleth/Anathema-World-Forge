@@ -1,5 +1,5 @@
 @tool
-extends Area3D
+extends Node3D
 
 @export_category("basic")
 @export var generate := false
