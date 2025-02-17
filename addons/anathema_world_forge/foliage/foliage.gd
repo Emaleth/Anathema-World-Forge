@@ -14,8 +14,8 @@ var _foliage_index : Dictionary = {
 		"height" : [0.5, 100.0],
 		"mesh" : preload("res://foliage_mesh.tres"),
 		"albedo_texture" : preload("res://sprite_0005.png"),
-		"density" : 64,
-		"patch_size" : 8
+		"density" : 2,
+		"patch_size" : 100
 	}
 }
 
@@ -38,6 +38,7 @@ func move_foliage(pos : Vector3) -> void:
 func _generate() -> void:
 	_clear_children()
 	_create_and_configure_multimeshes()
+	_get_instance_positions()
 
 	
 func _clear_children():
@@ -51,7 +52,7 @@ func _create_and_configure_multimeshes():
 		
 		_foliage_index[i]["multimesh"] = MultiMeshInstance3D.new()
 		add_child(_foliage_index[i]["multimesh"])
-		
+		#_foliage_index[i]["multimesh"].owner = self
 		_foliage_index[i]["multimesh"].multimesh = MultiMesh.new()
 		_foliage_index[i]["multimesh"].multimesh.mesh = _foliage_index[i]["mesh"]
 		_foliage_index[i]["multimesh"].multimesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -59,13 +60,13 @@ func _create_and_configure_multimeshes():
 		_foliage_index[i]["multimesh"].multimesh.instance_count = int(_foliage_index[i]["density"] * pow(_foliage_index[i]["patch_size"], 2))
 		
 		_configure_shader(i)
-		_foliage_index[i]["multimesh"].material_override = _foliage_index[i]["material"]
+		#_foliage_index[i]["multimesh"].material_override = _foliage_index[i]["material"]
 		_foliage_index[i]["multimesh"].extra_cull_margin = abs(max_height) + abs(max_depth)
 		
 		
 func _configure_shader(m_i):
 	_foliage_index[m_i]["material"] = ShaderMaterial.new()
-	_foliage_index[m_i]["material"].shader = _foliage_index[m_i]["shader"]
+	_foliage_index[m_i]["material"].shader = foliage_shader
 	var minmax_linear := Color(
 		_foliage_index[m_i]["slope"][0], 
 		_foliage_index[m_i]["slope"][1], 
@@ -75,10 +76,10 @@ func _configure_shader(m_i):
 	var minmax_srgb := minmax_linear.linear_to_srgb()
 	var minmax := Color(minmax_linear.r, minmax_linear.g, minmax_srgb.b, minmax_srgb.a)
 #	print(minmax)
-	_foliage_index[m_i]["material"].set_shader_parameter("minmax", minmax)
-	_foliage_index[m_i]["material"].set_shader_parameter("top_color", _foliage_index[m_i]["top_color"])
-	_foliage_index[m_i]["material"].set_shader_parameter("bottom_color", _foliage_index[m_i]["bottom_color"])
-	_foliage_index[m_i]["material"].set_shader_parameter("is_dynamic", _foliage_index[m_i]["is_dynamic"])
+	#_foliage_index[m_i]["material"].set_shader_parameter("minmax", minmax)
+	#_foliage_index[m_i]["material"].set_shader_parameter("top_color", _foliage_index[m_i]["top_color"])
+	#_foliage_index[m_i]["material"].set_shader_parameter("bottom_color", _foliage_index[m_i]["bottom_color"])
+	#_foliage_index[m_i]["material"].set_shader_parameter("is_dynamic", _foliage_index[m_i]["is_dynamic"])
 	_foliage_index[m_i]["material"].set_shader_parameter("albedo_texture", _foliage_index[m_i]["albedo_texture"])
 
 

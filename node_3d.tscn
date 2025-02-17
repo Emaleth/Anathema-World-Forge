@@ -3,13 +3,14 @@
 [ext_resource type="Script" path="res://addons/anathema_world_forge/terrain/terrain.gd" id="1_hmxjr"]
 [ext_resource type="Image" uid="uid://dauk3a4c6yr33" path="res://Heightmap.png" id="2_47gs0"]
 [ext_resource type="PlaneMesh" uid="uid://cheot0rolkc30" path="res://clipmap_mesh.tres" id="4_p8n6b"]
-[ext_resource type="Script" path="res://addons/anathema_world_forge/foliage/foliage.gd" id="5_gvgag"]
-[ext_resource type="Texture2D" uid="uid://ckfkwimo320i4" path="res://Water_001_COLOR.jpg" id="6_kpir7"]
-[ext_resource type="Script" path="res://addons/anathema_world_forge/water/water.gd" id="8_g64mt"]
+[ext_resource type="Script" path="res://addons/anathema_world_forge/water/water.gd" id="5_ck1y2"]
+[ext_resource type="Script" path="res://addons/anathema_world_forge/foliage/foliage.gd" id="6_mmcbl"]
+[ext_resource type="Texture2D" uid="uid://ckfkwimo320i4" path="res://Water_001_COLOR.jpg" id="6_yw7xu"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Terrain" type="StaticBody3D" parent="."]
+visible = false
 script = ExtResource("1_hmxjr")
 heightmap = ExtResource("2_47gs0")
 clipmap_mesh = ExtResource("4_p8n6b")
@@ -19,12 +20,13 @@ max_depth = 5
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.991135, -5.80756e-09, 0.132861, -0.0834287, 0.778265, 0.622369, -0.103401, -0.627936, 0.771365, 29.5821, 34.9382, 17.8446)
 
-[node name="Foliage" type="Node" parent="."]
-script = ExtResource("5_gvgag")
-heightmap = ExtResource("2_47gs0")
-
 [node name="Water" type="Area3D" parent="."]
-script = ExtResource("8_g64mt")
+visible = false
+script = ExtResource("5_ck1y2")
 clipmap_mesh = ExtResource("4_p8n6b")
-heightmap_size = 1
-water_albedo_texture = ExtResource("6_kpir7")
+heightmap_size = 256
+water_albedo_texture = ExtResource("6_yw7xu")
+
+[node name="Foliage" type="Node" parent="."]
+script = ExtResource("6_mmcbl")
+heightmap = ExtResource("2_47gs0")
